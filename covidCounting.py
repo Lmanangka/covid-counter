@@ -15,7 +15,8 @@ class Covid(object):
         if self.resp.status_code==200:
             print('Success!\n')
         else:
-            print('An error has occured',self.resp_code)
+            print('An error has occured',self.resp.status_code)
+
         self.soup=BeautifulSoup(self.resp.text,'html.parser')
         self.country=self.soup.find_all('h1')[0].text
         self.last_update=self.soup.find('div',{'style':'font-size:13px; color:#999; text-align:center'},{'Last updated:'})
@@ -27,7 +28,7 @@ class Covid(object):
         self.count_recovered=self.soup.find_all('div',{'class':'maincounter-number'})[2]
 
         print(self.country)
-        print(self.last_update.string)
+        print(self.last_update.text)
         print(self.cases,self.count_cases.select_one('span').text)
         print(self.deaths,self.count_deaths.select_one('span').text)
         print(self.recovered,self.count_recovered.select_one('span').text,'\n')
